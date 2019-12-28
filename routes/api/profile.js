@@ -1,5 +1,6 @@
 const express = require('express');
 const Profile = require('../../models/Profile');
+const User = require('../../models/User');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 
@@ -71,6 +72,139 @@ router.post('/', auth, async (req, res) => {
     profile = await Profile.create(profileFields);
     return res.json(profile);
   } catch (err) {
+    console.error(err.message);
+    res.status(500).json({
+      error: err.errmsg
+    });
+  }
+});
+
+//get all profiles
+router.get('/', async (req, res) => {
+  try {
+    const profiles = await Profile.find().populate('user', ['name', 'avatar']);
+    res.json(profiles);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({
+      error: err.errmsg
+    });
+  }
+});
+
+//get someones profile
+router.get('/user/:user_id', async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      user: req.params.user_id
+    }).populate('user', ['name', 'avatar']);
+    if (!profile || !profile.handle) {
+      return res.status(500).json({
+        msg: 'there is no such profile'
+      });
+    }
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(500).json({
+        msg: 'there is no such profile'
+      });
+    }
+    res.status(500).json({
+      error: err.message
+    });
+  }
+});
+
+//delete profile ,user, post
+
+router.delete('/', auth, async (req, res) => {
+  try {
+    await Profile.findOneAndRemove({ user: req.user.id });
+    await User.findOneAndRemove({ _id: req.user.id });
+    res.json({ msg: 'user removed' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({
+      error: err.errmsg
+    });
+  }
+});
+
+//add experience
+router.put('/experience', auth, async (req, res) => {
+  const newExp = {
+    title: req.body.title,
+    company: req.body.company,
+    location: req.body.location,
+    from: req.body.from,
+    to: req.body.to,
+    current: req.body.current,
+    description: req.body.description
+  };
+  try {
+    let profile = await Profile.findOne({ user: req.user.id });
+    profile.experience.unshift(newExp);
+    await profile.save();
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({
+      error: err.errmsg
+    });
+  }
+});
+//delete experience
+router.delete('/experience/:exp_id', auth, async (req, res) => {
+  try {
+    let profile = await Profile.findOne({ user: req.user.id });
+    profile.experience = profile.experience.filter(
+      exp => exp._id != req.params.exp_id
+    );
+    profile = await profile.save();
+    res.json(profile);
+  } catch (error) {
+    console.error(err.message);
+    res.status(500).json({
+      error: err.errmsg
+    });
+  }
+});
+
+//add education
+router.put('/education', auth, async (req, res) => {
+  const newEdu = {
+    school: req.body.school,
+    degree: req.body.degree,
+    fieldofstudy: req.body.fieldofstudy,
+    from: req.body.from,
+    to: req.body.to,
+    current: req.body.current,
+    description: req.body.description
+  };
+  try {
+    let profile = await Profile.findOne({ user: req.user.id });
+    profile.education.unshift(newEdu);
+    await profile.save();
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({
+      error: err.errmsg
+    });
+  }
+});
+//delete education
+router.delete('/education/:edu_id', auth, async (req, res) => {
+  try {
+    let profile = await Profile.findOne({ user: req.user.id });
+    profile.education = profile.education.filter(
+      edu => edu._id != req.params.edu_id
+    );
+    profile = await profile.save();
+    res.json(profile);
+  } catch (error) {
     console.error(err.message);
     res.status(500).json({
       error: err.errmsg
