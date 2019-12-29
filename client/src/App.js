@@ -12,6 +12,10 @@ import { setAuthToken } from './utils/setAuthToken';
 import { loadUser } from './actions/auth';
 import Dashboard from './components/dashboard/Dashboard';
 import PrivateRoute from './utils/PrivateRoute';
+import CreateProfile from './components/dashboard/CreateProfile';
+import EditProfile from './components/dashboard/EditProfile';
+import AddExperience from './components/dashboard/addExperience';
+import AddEducation from './components/dashboard/addEducation';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -20,7 +24,7 @@ if (localStorage.token) {
 function App() {
   React.useEffect(() => {
     store.dispatch(loadUser());
-    console.log(store.getState());
+    // console.log(store.getState());
   }, []);
 
   return (
@@ -35,6 +39,26 @@ function App() {
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <PrivateRoute
+                exact
+                path="/create-profile"
+                component={CreateProfile}
+              />
+              <PrivateRoute
+                exact
+                path="/edit-profile"
+                component={EditProfile}
+              />
+              <PrivateRoute
+                exact
+                path="/add-experience"
+                component={AddExperience}
+              />
+              <PrivateRoute
+                exact
+                path="/add-education"
+                component={AddEducation}
+              />
             </Switch>
           </section>
         </>

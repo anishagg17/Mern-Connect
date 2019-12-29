@@ -27,6 +27,7 @@ export default function(state = initialState, action) {
     case 'REGISTER_FAIL':
     case 'LOGIN_FAIL':
     case 'LOGOUT':
+    case 'ACCOUNT_DELETED':
       localStorage.removeItem('token');
       return {
         ...state,
