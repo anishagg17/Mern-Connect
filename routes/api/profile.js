@@ -3,6 +3,7 @@ const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 const router = express.Router();
 const auth = require('../../middleware/auth');
+const request = require('request');
 
 //get our profiles
 router.get('/me', auth, async (req, res) => {
@@ -204,10 +205,36 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
     );
     profile = await profile.save();
     res.json(profile);
-  } catch (error) {
-    console.error(err.message);
+  } catch (err) {
+    console.error(err);
     res.status(500).json({
-      error: err.errmsg
+      error: err
+    });
+  }
+});
+
+//get github
+
+router.get('/github/:username', async (req, res) => {
+  try {
+    const options = {
+      uri: `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECTRET}`,
+      method: 'GET',
+      headers: { 'user-agent': 'node.js' }
+    };
+    await request(options, (error, response, body) => {
+      if (error || response.statusCode !== 200) {
+        // console.error(error);
+        return res.status(500).json({
+          error: error
+        });
+      }
+      res.json(JSON.parse(body));
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: error
     });
   }
 });
