@@ -99,7 +99,8 @@ router.get('/user/:user_id', async (req, res) => {
     const profile = await Profile.findOne({
       user: req.params.user_id
     }).populate('user', ['name', 'avatar']);
-    if (!profile || !profile.handle) {
+    // console.log('HIT');
+    if (!profile) {
       return res.status(500).json({
         msg: 'there is no such profile'
       });
