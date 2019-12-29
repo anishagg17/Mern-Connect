@@ -1,29 +1,54 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+// import axios from 'axios';
 
 export const Login = () => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+
+  const { password, email } = formData;
+
+  const onSubmit = async e => {
+    e.preventDefault();
+    console.log('formData', formData);
+  };
+
   return (
     <>
-      <div class="alert alert-danger">Invalid credentials</div>
-      <h1 class="large text-primary">Sign In</h1>
-      <p class="lead">
-        <i class="fas fa-user"></i> Sign into Your Account
+      <h1 className="large text-primary">Log In</h1>
+      <p className="lead">
+        <i className="fas fa-user"></i> Sign In to Your Account
       </p>
-      <form class="form" action="dashboard.html">
-        <div class="form-group">
+      <form className="form" action="create-profile.html">
+        <div className="form-group">
           <input
             type="email"
             placeholder="Email Address"
+            value={email}
             name="email"
-            required
+            onChange={e =>
+              setFormData({ ...formData, [e.target.name]: e.target.value })
+            }
           />
         </div>
-        <div class="form-group">
-          <input type="password" placeholder="Password" name="password" />
+        <div className="form-group">
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={password}
+            onChange={e =>
+              setFormData({ ...formData, [e.target.name]: e.target.value })
+            }
+          />
         </div>
-        <input type="submit" class="btn btn-primary" value="Login" />
+        <button onClick={onSubmit} className="btn btn-primary">
+          Log In
+        </button>
       </form>
-      <p class="my-1">
+      <p className="my-1">
         Don't have an account? <Link to="/register">Sign Up</Link>
       </p>
     </>
