@@ -16,6 +16,7 @@ import CreateProfile from './components/dashboard/CreateProfile';
 import EditProfile from './components/dashboard/EditProfile';
 import AddExperience from './components/dashboard/addExperience';
 import AddEducation from './components/dashboard/addEducation';
+import Profiles from './components/profile/profiles';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -59,6 +60,7 @@ function App() {
                 path="/add-education"
                 component={AddEducation}
               />
+              <Route exact path="/profiles" component={Profiles} />
             </Switch>
           </section>
         </>
