@@ -49,7 +49,9 @@ It consists of an express server along with several routers, models, middleware 
 Client folder contains all code for the web-frontend application. It uses 
 
 `React` : it is a JavaScript library for building user interfaces.
+
 `Redux` : it is used to manage state of the application as a single source of truth.
+
 `Axios` : It is used to Make http requests from Client side to server side.
 
 
