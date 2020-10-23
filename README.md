@@ -2,7 +2,7 @@ Link to repo : https://github.com/anishagg17/Mern-Connect
 
 It is an online platform based on MERN architecture to allow developers to connect with each other, share posts, comment on posts, upload profiles via APIs. It is a full stack application created with Node.Js, React.Js, ExpressJs, and uses MongoDB as a database.
 
-Local installation:
+# Local installation:
 ``` 
 git clone git@github.com:anishagg17/Mern-Connect.git
 cd Mern-Connect
@@ -11,9 +11,9 @@ cd client
 npm i
 ``` 
 
-Running Application:
+# Running Application:
 
-Start Server :
+### Start Server :
 ``` Node server.js  ``` 
 
 
@@ -21,7 +21,7 @@ We can run server in development mode using nodemon instead of node
 ``` nodemon server.js ``` 
 
 
-Start Client :
+### Start Client :
 ``` npm start ``` 
 
 
@@ -31,7 +31,7 @@ Or
 ``` npm run dev ``` 
 
 
-Backend:
+## Backend:
 It consists of an express server along with several routers, models, middleware and controllers.
 
 `Db.js` :  It contains code to establish connection to the dataBase
@@ -44,7 +44,7 @@ It consists of an express server along with several routers, models, middleware 
 
 `Middleware` : It is a middleware which is used to check if a user is authenticated or not. It makes use of jsonwebtoken and passes to the respective controller if the conditions satisfy.
 
-Frontend:
+## Frontend:
 
 Client folder contains all code for the web-frontend application. It uses 
 
